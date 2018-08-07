@@ -1,54 +1,55 @@
-apply plugin: 'com.android.model.application'
+apply plugin: 'com.android.application'
 
 def appDir = getProjectDir().toString()
-def includeDir = appDir + "/src/main/jni/include/"
+def includeDir = appDir + "/src/main/cpp/include/"
 
-model {
-    android {
-        compileSdkVersion = 23
-        buildToolsVersion = "23.0.2"
-
-        defaultConfig.with {
-            applicationId = "opencl.androidtest"
-            minSdkVersion.apiLevel = 23
-            targetSdkVersion.apiLevel = 23
-            versionCode = 1
-            versionName = "1.0"
-        }
-
-        ndk {
-            moduleName = "opencltest"
-            cppFlags.add("-I${includeDir}".toString())
-
-            ldLibs.addAll(["android", "log", "jnigraphics"])
-            stl    = "gnustl_static"
-            cppFlags.add('-std=c++11')
-
+android {
+    sourceSets{
+        main{
+            jniLibs.srcDirs 'imported-lib/src/', 'more-imported-libs/src/'
         }
     }
 
-    android.buildTypes {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.example.miche.androidopencltest"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+                cppFlags "-I${includeDir}".toString()
+                //stl "gnustl_static"
+                cppFlags '-std=c++11'
+            }
+        }
+        ndk{
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+    buildTypes {
         release {
-            // minifyEnabled = false
-            // proguardFiles = getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    android.productFlavors {
-        create("arm8") {
-            ndk.abiFilters.add("arm64-v8a")
-            ndk.ldFlags.add("-L${file('src/main/jniLibs/arm64-v8a')}".toString())
-            ndk.ldLibs.addAll(['OpenCL'])
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
         }
-//        create("arm7") {
-//            ndk.abiFilters.add("armeabi-v7a")
-//            ndk.ldFlags.add("-L${file('src/main/jniLibs/armeabi-v7a')}".toString())
-//            ndk.ldLibs.addAll('OpenCL')
-//        }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0-beta01'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

@@ -539,7 +539,9 @@ void initOpenCL
 }
 
 
-extern "C" void Java_opencl_androidtest_MainActivity_initOpenCL
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_miche_androidopencltest_MainActivity_initOpenCL
         (
                 JNIEnv* env,
                 jobject thisObject,
@@ -603,7 +605,9 @@ void shutdownOpenCL (OpenCLObjects& openCLObjects)
 }
 
 
-extern "C" void Java_opencl_androidtest_MainActivity_shutdownOpenCL
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_miche_androidopencltest_MainActivity_shutdownOpenCL
         (
                 JNIEnv* env,
                 jobject thisObject
@@ -872,20 +876,20 @@ void nativeStepOpenCL
      * image.
      */
 
-    void *bufPtr = 
-    clEnqueueMapBuffer
-            (
-                    openCLObjects.queue,
-                    outputBuffer,
-                    CL_TRUE,    // to use the host pointer in the next call
-                    CL_MAP_READ,
-                    0,
-                    bufferSize,
-                    0, 0, 0,
-                    &err
-            );
+    void *bufPtr =
+            clEnqueueMapBuffer
+                    (
+                            openCLObjects.queue,
+                            outputBuffer,
+                            CL_TRUE,    // to use the host pointer in the next call
+                            CL_MAP_READ,
+                            0,
+                            bufferSize,
+                            0, 0, 0,
+                            &err
+                    );
     SAMPLE_CHECK_ERRORS(err);
-    
+
     memcpy(outputPixels, bufPtr, bufferSize);
 
     err = clEnqueueUnmapMemObject
@@ -911,7 +915,9 @@ void nativeStepOpenCL
     LOGD("nativeStepOpenCL ends successfully");
 }
 
-extern "C" void Java_opencl_androidtest_MainActivity_nativeStepOpenCL
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_miche_androidopencltest_MainActivity_nativeStepOpenCL
         (
                 JNIEnv* env,
                 jobject thisObject,
@@ -938,3 +944,5 @@ extern "C" void Java_opencl_androidtest_MainActivity_nativeStepOpenCL
                     outputBitmap
             );
 }
+
+

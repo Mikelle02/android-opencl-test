@@ -1,4 +1,4 @@
-package opencl.androidtest;
+package com.example.miche.androidopencltest;
 
 //import android.support.v7.app.AppCompatActivity;
 //import android.os.Bundle;
@@ -500,7 +500,7 @@ public class MainActivity extends Activity
 
     static
     {
-        System.loadLibrary("opencltest");
+        System.loadLibrary("OpenCL");
     }
 
     private native void initOpenCL (String openCLProgramText);
