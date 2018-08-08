@@ -2,13 +2,10 @@ apply plugin: 'com.android.application'
 
 def appDir = getProjectDir().toString()
 def includeDir = appDir + "/src/main/cpp/include/"
+def arm64lib = appDir + "/src/libs/arm64-v8a/"
+def armeabilib = appDir + "/src/libs/armeabi-v7a/"
 
 android {
-    sourceSets{
-        main{
-            jniLibs.srcDirs 'imported-lib/src/', 'more-imported-libs/src/'
-        }
-    }
 
     compileSdkVersion 28
     defaultConfig {
@@ -23,17 +20,31 @@ android {
                 cppFlags "-frtti -fexceptions"
                 cppFlags "-I${includeDir}".toString()
                 //stl "gnustl_static"
+                //cppFlags "-landroid -llog -ljnigraphics"
+                //cppFlags "-L${armeabilib}".toString()
+                //cppFlags "-lOpenCL"
                 cppFlags '-std=c++11'
             }
         }
-        ndk{
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
+
+    }
+
+    splits{
+        abi{
+            enable true
+            reset()
+            include "arm64-v8a", "armeabi-v7a"
+            universalApk true
         }
     }
+
+    project.ext.versionCodes = ['arm64-v8a': 1, 'armeabi-v7a': 2]
+
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //minifyEnabled false
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
