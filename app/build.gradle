@@ -2,8 +2,9 @@ apply plugin: 'com.android.application'
 
 def appDir = getProjectDir().toString()
 def includeDir = appDir + "/src/main/cpp/include/"
-def arm64lib = appDir + "/src/libs/arm64-v8a/"
-def armeabilib = appDir + "/src/libs/armeabi-v7a/"
+def libDir = appDir + "/src/jniLibs/"
+def arm64lib = libDir + "/arm64-v8a/"
+def armeabilib = libDir + "/armeabi-v7a/"
 
 android {
 
@@ -20,25 +21,14 @@ android {
                 cppFlags "-frtti -fexceptions"
                 cppFlags "-I${includeDir}".toString()
                 //stl "gnustl_static"
-                //cppFlags "-landroid -llog -ljnigraphics"
-                //cppFlags "-L${armeabilib}".toString()
+                cppFlags "-landroid -llog -ljnigraphics"
+                //cppFlags "-L${arm64lib}".toString()
                 //cppFlags "-lOpenCL"
                 cppFlags '-std=c++11'
             }
         }
 
     }
-
-    splits{
-        abi{
-            enable true
-            reset()
-            include "arm64-v8a", "armeabi-v7a"
-            universalApk true
-        }
-    }
-
-    project.ext.versionCodes = ['arm64-v8a': 1, 'armeabi-v7a': 2]
 
 
     buildTypes {
@@ -49,16 +39,11 @@ android {
     }
 
 
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0-beta01'
+    implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

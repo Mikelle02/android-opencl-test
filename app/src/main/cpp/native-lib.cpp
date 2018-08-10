@@ -17,7 +17,6 @@
 // Intel Corporation is the author of the Materials, and requests that all
 // problem reports or change requests be submitted to it directly
 
-
 #include <jni.h>
 #include <android/bitmap.h>
 #include <android/log.h>
