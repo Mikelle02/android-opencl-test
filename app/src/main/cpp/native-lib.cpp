@@ -28,6 +28,8 @@
 #include <cassert>
 
 #include <sys/time.h>
+#include <sys/system_properties.h>
+
 
 #include <CL/cl.h>
 

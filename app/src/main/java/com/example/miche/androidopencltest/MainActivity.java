@@ -57,6 +57,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import static java.lang.System.loadLibrary;
+
 
 public class MainActivity extends Activity
 {
