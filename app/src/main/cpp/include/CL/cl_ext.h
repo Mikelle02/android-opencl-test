@@ -581,8 +581,8 @@ typedef intptr_t cl_import_properties_arm;
 /* DMA BUF memory type value for CL_IMPORT_TYPE_ARM property */
 #define CL_IMPORT_TYPE_DMA_BUF_ARM                0x40B4
 
-/* Secure DMA BUF memory type value for CL_IMPORT_TYPE_ARM property */
-#define CL_IMPORT_TYPE_SECURE_ARM                 0x40B5
+/* Protected DMA BUF memory type value for CL_IMPORT_TYPE_ARM property */
+#define CL_IMPORT_TYPE_PROTECTED_ARM              0x40B5
 
 /* This extension adds a new function that allows for direct memory import into
  * OpenCL via the clImportMemoryARM function.
@@ -714,6 +714,19 @@ clSetKernelExecInfoARM(cl_kernel            /* kernel */,
                        cl_kernel_exec_info_arm  /* param_name */,
                        size_t               /* param_value_size */,
                        const void *         /* param_value */) CL_EXT_SUFFIX__VERSION_1_2;
+
+/********************************
+ * cl_arm_get_core_id extension *
+ ********************************/
+
+#ifdef CL_VERSION_1_2
+
+#define cl_arm_get_core_id 1
+
+/* Device info property for bitfield of cores present */
+#define CL_DEVICE_COMPUTE_UNITS_BITFIELD_ARM      0x40BF
+
+#endif  /* CL_VERSION_1_2 */
 
 #ifdef __cplusplus
 }
